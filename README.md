@@ -2,4 +2,7 @@
 ```bash
 uv run fastmcp dev inspector main.py
 ```
+- Inspector is like a POSTMAN to MCP server (or like SWAGGER UI)
 ![mcp inspector](./images/main.png)
+- Tools
+![demo-server-tools](./images/tools.png)
