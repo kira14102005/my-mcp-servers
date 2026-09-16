@@ -19,8 +19,8 @@ def init_db():
             CREATE TABLE IF NOT EXISTS expenses (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 description TEXT NOT NULL,
-                amount REAL NOT NULL,
-                date TEXT NOT NULL
+                amount DECIMAL(10,2) NOT NULL,
+                date DATE NOT NULL DEFAULT (CURRENT_DATE)
             )
         ''')
         conn.commit()
@@ -28,14 +28,20 @@ def init_db():
 init_db()
 
 @mcp.tool
-def add_expense(description: str, amount: float, date: str) -> str:
+def add_expense(description: str, amount: float, date: str | None = None) -> str:
     """Adds a new expense to the database."""
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
-        cursor.execute('''
-            INSERT INTO expenses (description, amount, date)
-            VALUES (?, ?, ?)
-        ''', (description, amount, date))
+        if date is None:
+            cursor.execute('''
+                INSERT INTO expenses (description, amount)
+                VALUES (?, ?)
+            ''', (description, amount))
+        else:
+            cursor.execute('''
+                INSERT INTO expenses (description, amount, date)
+                VALUES (?, ?, ?)
+            ''', (description, amount, date))
         conn.commit()
     return "Expense added successfully."
 
