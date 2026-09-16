@@ -1,0 +1,499 @@
+[
+  {
+    "id": "8d4eca00-094e-4790-9025-d6b2e8d6f424",
+    "timestamp": "2026-09-16T17:49:18.495Z",
+    "direction": "request",
+    "origin": "client",
+    "message": {
+      "method": "initialize",
+      "params": {
+        "protocolVersion": "2025-11-25",
+        "capabilities": {
+          "sampling": {},
+          "elicitation": {
+            "form": {},
+            "url": {}
+          },
+          "roots": {
+            "listChanged": true
+          },
+          "tasks": {
+            "list": {},
+            "cancel": {},
+            "requests": {
+              "sampling": {
+                "createMessage": {}
+              },
+              "elicitation": {
+                "create": {}
+              }
+            }
+          },
+          "extensions": {
+            "io.modelcontextprotocol/tasks": {},
+            "io.modelcontextprotocol/ui": {
+              "mimeTypes": [
+                "text/html;profile=mcp-app"
+              ],
+              "elicitation": {}
+            },
+            "io.modelcontextprotocol/skills": {}
+          }
+        },
+        "clientInfo": {
+          "name": "mcp-inspector",
+          "version": "0.0.0"
+        }
+      },
+      "jsonrpc": "2.0",
+      "id": 0
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 0,
+      "result": {
+        "protocolVersion": "2025-11-25",
+        "capabilities": {
+          "logging": {},
+          "prompts": {
+            "listChanged": false
+          },
+          "resources": {
+            "subscribe": false,
+            "listChanged": false
+          },
+          "tools": {
+            "listChanged": true
+          }
+        },
+        "serverInfo": {
+          "name": "FastMCP Demo Server",
+          "version": "4.0.4"
+        }
+      }
+    },
+    "duration": 2352
+  },
+  {
+    "id": "f750e407-4376-403f-93cd-cd175e57eb21",
+    "timestamp": "2026-09-16T17:49:20.853Z",
+    "direction": "notification",
+    "origin": "client",
+    "message": {
+      "jsonrpc": "2.0",
+      "method": "notifications/initialized"
+    }
+  },
+  {
+    "id": "1401a662-1497-4490-8401-af0faa445f01",
+    "timestamp": "2026-09-16T17:49:20.870Z",
+    "direction": "request",
+    "origin": "client",
+    "message": {
+      "method": "resources/list",
+      "jsonrpc": "2.0",
+      "id": 1,
+      "params": {
+        "_meta": {
+          "progressToken": 1
+        }
+      }
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "resources": []
+      }
+    },
+    "duration": 30
+  },
+  {
+    "id": "b1652c54-fcd2-48ff-8d07-23b280d1afac",
+    "timestamp": "2026-09-16T17:49:20.870Z",
+    "direction": "request",
+    "origin": "client",
+    "message": {
+      "method": "tools/list",
+      "jsonrpc": "2.0",
+      "id": 2,
+      "params": {
+        "_meta": {
+          "progressToken": 2
+        }
+      }
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "result": {
+        "tools": [
+          {
+            "_meta": {
+              "fastmcp": {
+                "tags": []
+              }
+            },
+            "description": "Rolls n dice with the specified number of sides.",
+            "inputSchema": {
+              "properties": {
+                "n": {
+                  "default": 1,
+                  "type": "integer"
+                },
+                "sides": {
+                  "default": 6,
+                  "type": "integer"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            },
+            "name": "roll_dice",
+            "outputSchema": {
+              "properties": {
+                "result": {
+                  "items": {
+                    "type": "integer"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "result"
+              ],
+              "type": "object",
+              "x-fastmcp-wrap-result": true
+            },
+            "title": "Roll Dice"
+          },
+          {
+            "_meta": {
+              "fastmcp": {
+                "tags": []
+              }
+            },
+            "description": "Adds two numbers together.",
+            "inputSchema": {
+              "properties": {
+                "a": {
+                  "type": "integer"
+                },
+                "b": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "a",
+                "b"
+              ],
+              "type": "object",
+              "additionalProperties": false
+            },
+            "name": "add_numbers",
+            "outputSchema": {
+              "properties": {
+                "result": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "result"
+              ],
+              "type": "object",
+              "x-fastmcp-wrap-result": true
+            },
+            "title": "Add Numbers"
+          }
+        ]
+      }
+    },
+    "duration": 38
+  },
+  {
+    "id": "ec571ee9-8352-454d-bb0f-d2bf6e6abf52",
+    "timestamp": "2026-09-16T17:49:20.870Z",
+    "direction": "request",
+    "origin": "client",
+    "message": {
+      "method": "prompts/list",
+      "jsonrpc": "2.0",
+      "id": 3,
+      "params": {
+        "_meta": {
+          "progressToken": 3
+        }
+      }
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 3,
+      "result": {
+        "prompts": []
+      }
+    },
+    "duration": 46
+  },
+  {
+    "id": "1640c700-babf-4660-b63c-5b90f4880c0b",
+    "timestamp": "2026-09-16T17:49:20.871Z",
+    "direction": "request",
+    "origin": "client",
+    "message": {
+      "method": "resources/templates/list",
+      "jsonrpc": "2.0",
+      "id": 4,
+      "params": {
+        "_meta": {
+          "progressToken": 4
+        }
+      }
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 4,
+      "result": {
+        "resourceTemplates": []
+      }
+    },
+    "duration": 51
+  },
+  {
+    "id": "bad1acee-466f-4d2b-ad22-86d6ee64d06d",
+    "timestamp": "2026-09-16T17:55:07.382Z",
+    "direction": "request",
+    "origin": "client",
+    "message": {
+      "method": "tools/list",
+      "params": {
+        "_meta": {
+          "progressToken": 5
+        }
+      },
+      "jsonrpc": "2.0",
+      "id": 5
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 5,
+      "result": {
+        "tools": [
+          {
+            "_meta": {
+              "fastmcp": {
+                "tags": []
+              }
+            },
+            "description": "Rolls n dice with the specified number of sides.",
+            "inputSchema": {
+              "properties": {
+                "n": {
+                  "default": 1,
+                  "type": "integer"
+                },
+                "sides": {
+                  "default": 6,
+                  "type": "integer"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            },
+            "name": "roll_dice",
+            "outputSchema": {
+              "properties": {
+                "result": {
+                  "items": {
+                    "type": "integer"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "result"
+              ],
+              "type": "object",
+              "x-fastmcp-wrap-result": true
+            },
+            "title": "Roll Dice"
+          },
+          {
+            "_meta": {
+              "fastmcp": {
+                "tags": []
+              }
+            },
+            "description": "Adds two numbers together.",
+            "inputSchema": {
+              "properties": {
+                "a": {
+                  "type": "integer"
+                },
+                "b": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "a",
+                "b"
+              ],
+              "type": "object",
+              "additionalProperties": false
+            },
+            "name": "add_numbers",
+            "outputSchema": {
+              "properties": {
+                "result": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "result"
+              ],
+              "type": "object",
+              "x-fastmcp-wrap-result": true
+            },
+            "title": "Add Numbers"
+          }
+        ]
+      }
+    },
+    "duration": 38
+  },
+  {
+    "id": "331030e9-fd96-41f4-bf7f-6f9116425a99",
+    "timestamp": "2026-09-16T17:55:07.384Z",
+    "direction": "request",
+    "origin": "client",
+    "message": {
+      "method": "prompts/list",
+      "params": {
+        "_meta": {
+          "progressToken": 6
+        }
+      },
+      "jsonrpc": "2.0",
+      "id": 6
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 6,
+      "result": {
+        "prompts": []
+      }
+    },
+    "duration": 59
+  },
+  {
+    "id": "e26b0451-987a-40f1-b3ba-93a94bd78e08",
+    "timestamp": "2026-09-16T17:55:07.384Z",
+    "direction": "request",
+    "origin": "client",
+    "message": {
+      "method": "resources/list",
+      "params": {
+        "_meta": {
+          "progressToken": 7
+        }
+      },
+      "jsonrpc": "2.0",
+      "id": 7
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 7,
+      "result": {
+        "resources": []
+      }
+    },
+    "duration": 84
+  },
+  {
+    "id": "dcd5e50f-8ac7-4499-8a48-fe6685e7e1d0",
+    "timestamp": "2026-09-16T17:55:11.228Z",
+    "direction": "request",
+    "origin": "client",
+    "message": {
+      "method": "tools/call",
+      "params": {
+        "name": "roll_dice",
+        "arguments": {
+          "n": 1,
+          "sides": 6
+        },
+        "_meta": {
+          "progressToken": 8
+        }
+      },
+      "jsonrpc": "2.0",
+      "id": 8
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 8,
+      "result": {
+        "_meta": {
+          "fastmcp": {
+            "wrap_result": true
+          }
+        },
+        "content": [
+          {
+            "text": "[1]",
+            "type": "text"
+          }
+        ],
+        "isError": false,
+        "structuredContent": {
+          "result": [
+            1
+          ]
+        }
+      }
+    },
+    "duration": 36
+  },
+  {
+    "id": "84f03d3c-0af9-4ff7-a66b-dde013496809",
+    "timestamp": "2026-09-16T17:55:24.301Z",
+    "direction": "request",
+    "origin": "client",
+    "message": {
+      "method": "tools/call",
+      "params": {
+        "name": "add_numbers",
+        "arguments": {
+          "a": 1212,
+          "b": 112
+        },
+        "_meta": {
+          "progressToken": 9
+        }
+      },
+      "jsonrpc": "2.0",
+      "id": 9
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 9,
+      "result": {
+        "_meta": {
+          "fastmcp": {
+            "wrap_result": true
+          }
+        },
+        "content": [
+          {
+            "text": "1324",
+            "type": "text"
+          }
+        ],
+        "isError": false,
+        "structuredContent": {
+          "result": 1324
+        }
+      }
+    },
+    "duration": 32
+  }
+]
