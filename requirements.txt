@@ -1,3 +1,5 @@
 uvicorn
 fastmcp
 python-dotenv
+aiosqlite
+aiofiles
