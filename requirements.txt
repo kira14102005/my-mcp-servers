@@ -3,3 +3,4 @@ fastmcp
 python-dotenv
 aiosqlite
 aiofiles
+langchain-mcp-adapters
