@@ -1,0 +1,48 @@
+{
+    "Food" : [
+        "Groceries",
+        "Dining Out",
+        "Coffee Shops"
+    ],
+    "Transportation" : [
+        "Public Transit",
+        "Gas",
+        "Ride Sharing"
+    ],
+    "Utilities" : [
+        "Electricity",
+        "Water",
+        "Internet",
+        "Phone"
+    ],
+    "Entertainment" : [
+        "Movies",
+        "Concerts",
+        "Streaming Services"
+    ],
+    "Health" : [
+        "Medical Bills",
+        "Pharmacy",
+        "Gym Memberships"
+    ],
+    "Education" : [
+        "Tuition",
+        "Books",
+        "Online Courses"
+    ],
+    "Shopping" : [
+        "Clothing",
+        "Electronics",
+        "Home Goods"
+    ],
+    "Travel" : [
+        "Flights",
+        "Hotels",
+        "Car Rentals"
+    ],
+    "Miscellaneous" : [
+        "Gifts",
+        "Donations",
+        "Other"
+    ]
+}
