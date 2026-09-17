@@ -29,26 +29,31 @@ async def main():
     llm = ChatGoogleGenerativeAI(model="gemini-3.5-flash-lite")
     llm_tools =llm.bind_tools(tool_list)
 
-    response = await llm_tools.ainvoke([prompt])
-
-    if not getattr(response, "tool_calls", None):
-        print("No tool calls were made by the LLM.")
-        print("LLM response:")
-        print(response.text)
-        return
-
-    tool_messages = []
-    for i, tool_obj in enumerate(response.tool_calls):
-        tool_name = tool_obj['name']
-        tool_args = tool_obj['args']
-        tool_id = tool_obj['id']
-        print(f"Tool call {i+1}: {tool_name}")
-        result = await tools[tool_name].ainvoke(tool_args)
-        tool_messages.append(ToolMessage(content=json.dumps(result), tool_call_id=tool_id, name=tool_name))
-
-    final_response = await llm_tools.ainvoke([prompt, response, *tool_messages])
+    final_response = await invoke_with_tools(prompt, llm_tools, tools)
     print("LLM response:")
     print(final_response.text)
+
+
+async def invoke_with_tools(prompt, llm_with_tools, tools):
+    """Invoke the LLM and handle tool calls until a final response is returned."""
+    messages = [prompt]
+    tool_call_number = 0
+
+    while True:
+        response = await llm_with_tools.ainvoke(messages)
+        messages.append(response)
+
+        if not getattr(response, "tool_calls", None):
+            return response
+
+        for tool_obj in response.tool_calls:
+            tool_call_number += 1
+            tool_name = tool_obj["name"]
+            tool_args = tool_obj["args"]
+            tool_id = tool_obj["id"]
+            print(f"Tool call {tool_call_number}: {tool_name}")
+            result = await tools[tool_name].ainvoke(tool_args)
+            messages.append(ToolMessage(content=json.dumps(result), tool_call_id=tool_id, name=tool_name))
 
 if __name__ == "__main__":
     asyncio.run(main())
