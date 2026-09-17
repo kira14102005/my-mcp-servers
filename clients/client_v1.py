@@ -30,6 +30,12 @@ async def main():
 
     response = await llm_tools.ainvoke([prompt])
 
+    if not getattr(response, "tool_calls", None):
+        print("No tool calls were made by the LLM.")
+        print("LLM response:")
+        print(response.text)
+        return
+
     for i, tool_obj in enumerate(response.tool_calls):
         print("-"*40)
         print(f"Tool call {i + 1}:")
