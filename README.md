@@ -20,7 +20,6 @@ uv run fastmcp dev inspector main.py
     2. No user authentication
     3. No user level separation of expenses
 
-Copy the text block below and save it as `SETUP.md` or `setup.txt`:
 
 ### Local Setup & Installation
 
