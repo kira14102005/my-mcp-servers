@@ -22,8 +22,8 @@ def init_db():
                 description TEXT NOT NULL,
                 amount DECIMAL(10,2) NOT NULL,
                 date DATE NOT NULL DEFAULT (CURRENT_DATE),
-                category TEXT,
-                subcategory TEXT 
+                category TEXT DEFAULT (Miscellaneous),
+                subcategory TEXT DEFAULT (Other)
             )
         ''')
         conn.commit()
@@ -31,12 +31,14 @@ def init_db():
 init_db()
 
 @mcp.tool
-def add_expense(description: str, amount: float, date: str | None = None) -> str:
+def add_expense(description: str, amount: float, category: str | None = None, subcategory: str | None = None, date: str | None = None) -> str:
     """
     Adds a new expense to the database.
     Args
         description (str): The description of the expense.
         amount (float): The amount of the expense.
+        category (str | None): The category of the expense. If None, it defaults to "Miscellaneous".
+        subcategory (str | None): The subcategory of the expense. If None, it defaults to "Other".
         date (str | None): The date of the expense. If None, the current date is used.
     Returns
         str: A message indicating the expense was added successfully.
@@ -45,9 +47,9 @@ def add_expense(description: str, amount: float, date: str | None = None) -> str
         cursor = conn.cursor()
         if date is None:
             cursor.execute('''
-                INSERT INTO expenses (description, amount)
-                VALUES (?, ?)
-            ''', (description, amount))
+                INSERT INTO expenses (description, amount, category, subcategory)
+                VALUES (?, ?, ?, ?)
+            ''', (description, amount, category, subcategory))
         else:
             cursor.execute('''
                 INSERT INTO expenses (description, amount, date)
@@ -67,7 +69,7 @@ def get_all_expenses() -> list[dict]:
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM expenses')
         rows = cursor.fetchall()
-        expenses = [{"id": row[0], "description": row[1], "amount": row[2], "date": row[3]} for row in rows]
+        expenses = [{"id": row[0], "description": row[1], "amount": row[2], "date": row[3], "category": row[4], "subcategory": row[5]} for row in rows]
     return expenses
 
 @mcp.tool
@@ -87,7 +89,7 @@ def get_expense_between_dates(start_date: str, end_date: str) -> list[dict]:
             WHERE date BETWEEN ? AND ?
         ''', (start_date, end_date))
         rows = cursor.fetchall()
-        expenses = [{"id": row[0], "description": row[1], "amount": row[2], "date": row[3]} for row in rows]
+        expenses = [{"id": row[0], "description": row[1], "amount": row[2], "date": row[3], "category": row[4], "subcategory": row[5]} for row in rows]
     return expenses
 
 @mcp.resource("expense://categories", mime_type="application/json" , description="Provides a list of expense categories and subcategories.")
