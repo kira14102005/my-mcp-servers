@@ -15,6 +15,10 @@ servers = {
             "run",
             r"D:\hr\my-mcp-servers\local-mcp\expense-tracking-mcp\main.py"
         ],
+    },
+    "remote_expense_server": {
+        "transport": "streamable_http",
+        "url": "http://expense-tracking-mcp.fastmcp.app/mcp"
     }
 }
 
@@ -23,6 +27,7 @@ async def main():
     client = MultiServerMCPClient(servers)
     tool_list = await client.get_tools()
     tools = {tool.name: tool for tool in tool_list}
+    print(f"Available tools: {list(tools.keys())}")
 
     prompt = HumanMessage(content="What is the total expense in this month of September 2026?")
 
