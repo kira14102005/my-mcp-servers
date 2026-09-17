@@ -8,6 +8,7 @@ load_dotenv()
 DB_NAME = os.getenv("DB_NAME", "expenses.db")
 
 DB_PATH = os.path.join(os.path.dirname(__file__), DB_NAME)
+CATEGORY_PATH = os.path.join(os.path.dirname(__file__), "category.json")
 
 mcp = FastMCP(name="Expense Tracking MCP")
 
@@ -20,7 +21,9 @@ def init_db():
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 description TEXT NOT NULL,
                 amount DECIMAL(10,2) NOT NULL,
-                date DATE NOT NULL DEFAULT (CURRENT_DATE)
+                date DATE NOT NULL DEFAULT (CURRENT_DATE),
+                category TEXT,
+                subcategory TEXT 
             )
         ''')
         conn.commit()
@@ -86,6 +89,18 @@ def get_expense_between_dates(start_date: str, end_date: str) -> list[dict]:
         rows = cursor.fetchall()
         expenses = [{"id": row[0], "description": row[1], "amount": row[2], "date": row[3]} for row in rows]
     return expenses
+
+@mcp.resource("expense://categories", mime_type="application/json" , description="Provides a list of expense categories and subcategories.")
+def categories()-> dict:
+    """
+    Provides a list of expense categories and subcategories.
+    Returns
+        dict: A dictionary containing categories and their corresponding subcategories.
+    """
+    import json
+    with open(CATEGORY_PATH, 'r') as f:
+        categories = json.load(f)
+    return categories
 
 if __name__ == "__main__":
     mcp.run()
