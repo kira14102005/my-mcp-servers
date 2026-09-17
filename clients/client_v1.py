@@ -1,6 +1,7 @@
 import asyncio
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.messages import ToolMessage, AIMessage, HumanMessage
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -22,12 +23,12 @@ async def main():
     tool_list = await client.get_tools()
     tools = {tool.name: tool for tool in tool_list}
 
-    prompt = "What is the total expense in this month of September 2026?"
+    prompt = HumanMessage(content="What is the total expense in this month of September 2026?")
 
     llm = ChatGoogleGenerativeAI(model="gemini-3.5-flash-lite")
     llm_tools =llm.bind_tools(tool_list)
 
-    response = await llm_tools.ainvoke(prompt)
+    response = await llm_tools.ainvoke([prompt])
 
     for i, tool_obj in enumerate(response.tool_calls):
         print("-"*40)
@@ -39,6 +40,10 @@ async def main():
     print("Tool result:")
     tool_result = await tools[response.tool_calls[0]['name']].ainvoke(response.tool_calls[0]['args'])
     print(tool_result)
+    tool_message = ToolMessage(content=tool_result, tool_call_id=response.tool_calls[0]['id'], name=response.tool_calls[0]['name'])
+    final_response = await llm_tools.ainvoke([prompt, response, tool_message])
+    print("\nFinal response from LLM:")
+    print(final_response.text)
 
 if __name__ == "__main__":
     asyncio.run(main())
