@@ -36,8 +36,9 @@ async def main():
     tools = {tool.name: tool for tool in tool_list}
     print(f"Available tools: {list(tools.keys())}")
 
-    input_text = input("Enter your expense command (or type 'exit' to quit): ")
-    if input_text.lower() == 'exit':
+    input_text = input("Input> ")
+    bye_commands = ['exit', 'quit', 'bye', 'goodbye', '0']
+    if input_text.lower() in bye_commands:
         print("Exiting...")
         return
 
