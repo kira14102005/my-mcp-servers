@@ -1,4 +1,5 @@
 import asyncio
+import json
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import ToolMessage, AIMessage, HumanMessage
@@ -36,19 +37,17 @@ async def main():
         print(response.text)
         return
 
+    tool_messages = []
     for i, tool_obj in enumerate(response.tool_calls):
-        print("-"*40)
-        print(f"Tool call {i + 1}:")
-        print(f"Calling tool: {tool_obj['name']}")
-        print(f"Tool input: {tool_obj['args']}")
-        print("-"*40)
+        tool_name = tool_obj['name']
+        tool_args = tool_obj['args']
+        tool_id = tool_obj['id']
+        print(f"Tool call {i+1}: {tool_name}")
+        result = await tools[tool_name].ainvoke(tool_args)
+        tool_messages.append(ToolMessage(content=json.dumps(result), tool_call_id=tool_id, name=tool_name))
 
-    print("Tool result:")
-    tool_result = await tools[response.tool_calls[0]['name']].ainvoke(response.tool_calls[0]['args'])
-    print(tool_result)
-    tool_message = ToolMessage(content=tool_result, tool_call_id=response.tool_calls[0]['id'], name=response.tool_calls[0]['name'])
-    final_response = await llm_tools.ainvoke([prompt, response, tool_message])
-    print("\nFinal response from LLM:")
+    final_response = await llm_tools.ainvoke([prompt, response, *tool_messages])
+    print("LLM response:")
     print(final_response.text)
 
 if __name__ == "__main__":
