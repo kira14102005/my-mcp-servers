@@ -1,11 +1,15 @@
 import asyncio
 import json
+import os
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import ToolMessage, AIMessage, HumanMessage
 from dotenv import load_dotenv
 
 load_dotenv()
+
+FMCP_ACCESS_KEY = os.getenv("FMCP_ACCESS_KEY")
+REMOTE_MCP_SERVER_URL = os.getenv("REMOTE_MCP_SERVER_URL")
 
 servers = {
     "local_expense_server": {
@@ -17,8 +21,11 @@ servers = {
         ],
     },
     "remote_expense_server": {
-        "transport": "streamable_http",
-        "url": "http://expense-tracking-mcp.fastmcp.app/mcp"
+        "transport": "http",
+        "url": REMOTE_MCP_SERVER_URL,
+        "headers": {
+            "Authorization": f"Bearer {FMCP_ACCESS_KEY}"
+        }
     }
 }
 
@@ -58,7 +65,7 @@ async def invoke_with_tools(prompt, llm_with_tools, tools):
             tool_id = tool_obj["id"]
             print(f"Tool call {tool_call_number}: {tool_name}")
             result = await tools[tool_name].ainvoke(tool_args)
-            messages.append(ToolMessage(content=json.dumps(result), tool_call_id=tool_id, name=tool_name))
+            messages.append(ToolMessage(content=json.dumps(result), tool_call_id=tool_id))
 
 if __name__ == "__main__":
     asyncio.run(main())
