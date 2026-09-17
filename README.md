@@ -9,4 +9,6 @@ uv run fastmcp dev inspector main.py
 
 ### Expense Tracker MCP
 - Tool Call
-![tool-call](./images/expense_tracker_tool_call.png)
+![tool-call](./images/expense_tracker_tool.png)
+- Resource/Get
+![resouce-get](./images/expense_tracker_resource.png)
