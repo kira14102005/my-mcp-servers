@@ -13,7 +13,7 @@ uv run fastmcp dev inspector main.py
 - Resource/Get
 ![resouce-get](./images/expense_tracker_resource.png)
 - Client Local MCP Tool Call
-![client-tool-call](./images/client_tool_call.png)
+![client-tool-call](./images/client_mcp_tool_call.png)
 ### Remote MCP
 - Deploy with `fastmcp.cloud` by connecting your GitHub repo
 - Expense-tracking-mcp deployed on [URL](https://expense-tracking-mcp.fastmcp.app/mcp)
