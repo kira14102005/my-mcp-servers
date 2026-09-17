@@ -6,3 +6,7 @@ uv run fastmcp dev inspector main.py
 ![mcp inspector](./images/main.png)
 - Tools
 ![demo-server-tools](./images/tools.png)
+
+### Expense Tracker MCP
+- Tool Call
+![tool-call](./images/expense_tracker_tool_call.png)
