@@ -22,8 +22,8 @@ def init_db():
                 description TEXT NOT NULL,
                 amount DECIMAL(10,2) NOT NULL,
                 date DATE NOT NULL DEFAULT (CURRENT_DATE),
-                category TEXT DEFAULT (Miscellaneous),
-                subcategory TEXT DEFAULT (Other)
+                category TEXT DEFAULT 'Miscellaneous',
+                subcategory TEXT DEFAULT 'Other'
             )
         ''')
         conn.commit()
@@ -45,16 +45,24 @@ def add_expense(description: str, amount: float, category: str | None = None, su
     """
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
-        if date is None:
-            cursor.execute('''
-                INSERT INTO expenses (description, amount, category, subcategory)
-                VALUES (?, ?, ?, ?)
-            ''', (description, amount, category, subcategory))
-        else:
-            cursor.execute('''
-                INSERT INTO expenses (description, amount, date)
-                VALUES (?, ?, ?)
-            ''', (description, amount, date))
+        columns = ["description", "amount"]
+        values = [description, amount]
+
+        if category:
+            columns.append("category")
+            values.append(category)
+        if subcategory:
+            columns.append("subcategory")
+            values.append(subcategory)
+        if date:
+            columns.append("date")
+            values.append(date)
+
+        placeholders = ", ".join("?" for _ in values)
+        cursor.execute(
+            f"INSERT INTO expenses ({', '.join(columns)}) VALUES ({placeholders})",
+            values,
+        )
         conn.commit()
     return "Expense added successfully."
 
