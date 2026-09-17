@@ -3,7 +3,7 @@ import json
 import os
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_core.messages import ToolMessage, AIMessage, HumanMessage
+from langchain_core.messages import ToolMessage, HumanMessage
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -12,14 +12,14 @@ FMCP_ACCESS_KEY = os.getenv("FMCP_ACCESS_KEY")
 REMOTE_MCP_SERVER_URL = os.getenv("REMOTE_MCP_SERVER_URL")
 
 servers = {
-    "local_expense_server": {
-        "transport": "stdio",
-        "command": r"D:\hr\my-mcp-servers\.venv\Scripts\fastmcp.exe",
-        "args": [
-            "run",
-            r"D:\hr\my-mcp-servers\local-mcp\expense-tracking-mcp\main.py"
-        ],
-    },
+    # "local_expense_server": {
+    #     "transport": "stdio",
+    #     "command": r"D:\hr\my-mcp-servers\.venv\Scripts\fastmcp.exe",
+    #     "args": [
+    #         "run",
+    #         r"D:\hr\my-mcp-servers\local-mcp\expense-tracking-mcp\main.py"
+    #     ],
+    # },
     "remote_expense_server": {
         "transport": "http",
         "url": REMOTE_MCP_SERVER_URL,
@@ -36,7 +36,7 @@ async def main():
     tools = {tool.name: tool for tool in tool_list}
     print(f"Available tools: {list(tools.keys())}")
 
-    prompt = HumanMessage(content="What is the total expense in this month of September 2026?")
+    prompt = HumanMessage(content="Add expense: 2026-10-05, Gift for Her Birthday, 12000, category: Miscellaneous, subcategory: Gifts")
 
     llm = ChatGoogleGenerativeAI(model="gemini-3.5-flash-lite")
     llm_tools =llm.bind_tools(tool_list)
