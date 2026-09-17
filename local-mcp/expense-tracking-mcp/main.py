@@ -100,6 +100,32 @@ def get_expense_between_dates(start_date: str, end_date: str) -> list[dict]:
         expenses = [{"id": row[0], "description": row[1], "amount": row[2], "date": row[3], "category": row[4], "subcategory": row[5]} for row in rows]
     return expenses
 
+@mcp.tool
+def summarize(start_date:str, end_date:str, category:str | None = None) -> dict:
+    """
+    Summarizes expenses between two dates.
+    Args
+        start_date (str): The start date.
+        end_date (str): The end date.
+        category (str | None): The category of the expenses. If None, all categories are included.
+    Returns
+        dict: A dictionary containing the total amount and count of expenses.
+    """
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        sql_query = """
+        SELECT SUM(amount), COUNT(*) FROM expenses
+        WHERE date BETWEEN ? AND ?
+        """
+        values= (start_date, end_date)
+        if category:
+            sql_query += " AND category = ?"
+            values += (category,)
+        cursor.execute(sql_query, values)
+        total_amount, count = cursor.fetchone()
+        
+    return {"total_amount": total_amount or 0, "count": count or 0, "category": category or "All"}
+
 @mcp.resource("expense://categories", mime_type="application/json" , description="Provides a list of expense categories and subcategories.")
 def categories()-> dict:
     """
