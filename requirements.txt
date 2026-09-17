@@ -4,3 +4,11 @@ python-dotenv
 aiosqlite
 aiofiles
 langchain-mcp-adapters
+langchain
+langgraph
+langchain-core
+langchain-classic
+langchain-google-genai
+langchain-community
+langchain-experimental
+google-generativeai
