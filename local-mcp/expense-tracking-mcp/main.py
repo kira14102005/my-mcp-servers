@@ -29,7 +29,15 @@ init_db()
 
 @mcp.tool
 def add_expense(description: str, amount: float, date: str | None = None) -> str:
-    """Adds a new expense to the database."""
+    """
+    Adds a new expense to the database.
+    Args
+        description (str): The description of the expense.
+        amount (float): The amount of the expense.
+        date (str | None): The date of the expense. If None, the current date is used.
+    Returns
+        str: A message indicating the expense was added successfully.
+    """
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         if date is None:
@@ -46,11 +54,35 @@ def add_expense(description: str, amount: float, date: str | None = None) -> str
     return "Expense added successfully."
 
 @mcp.tool
-def get_expenses() -> list[dict]:
-    """Retrieves all expenses from the database."""
+def get_all_expenses() -> list[dict]:
+    """
+    Retrieves all expenses from the database.
+    Returns
+        list[dict]: A list of all expenses.
+    """
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM expenses')
+        rows = cursor.fetchall()
+        expenses = [{"id": row[0], "description": row[1], "amount": row[2], "date": row[3]} for row in rows]
+    return expenses
+
+@mcp.tool
+def get_expense_between_dates(start_date: str, end_date: str) -> list[dict]:
+    """
+    Retrieves expenses between two dates.
+    Args
+        start_date (str): The start date.
+        end_date (str): The end date.
+    Returns
+        list[dict]: A list of expenses between the two dates.
+    """
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT * FROM expenses
+            WHERE date BETWEEN ? AND ?
+        ''', (start_date, end_date))
         rows = cursor.fetchall()
         expenses = [{"id": row[0], "description": row[1], "amount": row[2], "date": row[3]} for row in rows]
     return expenses
