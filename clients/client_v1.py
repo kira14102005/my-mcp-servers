@@ -26,6 +26,16 @@ servers = {
         "headers": {
             "Authorization": f"Bearer {FMCP_ACCESS_KEY}"
         }
+    },
+    "manim-server": {
+        "transport": "stdio",
+        "command": r"D:\hr\manim-mcp-server\.venv\Scripts\python.exe",
+        "args": [
+        r"D:\hr\manim-mcp-server\src\manim_server.py"
+      ],
+        "env": {
+            "MANIM_EXECUTABLE": r"D:\hr\manim-mcp-server\.venv\Scripts\manim.exe"
+      }
     }
 }
 
