@@ -36,7 +36,12 @@ async def main():
     tools = {tool.name: tool for tool in tool_list}
     print(f"Available tools: {list(tools.keys())}")
 
-    prompt = HumanMessage(content="Add expense: 2026-10-05, Gift for Her Birthday, 12000, category: Miscellaneous, subcategory: Gifts")
+    input_text = input("Enter your expense command (or type 'exit' to quit): ")
+    if input_text.lower() == 'exit':
+        print("Exiting...")
+        return
+
+    prompt = HumanMessage(content=input_text)
 
     llm = ChatGoogleGenerativeAI(model="gemini-3.5-flash-lite")
     llm_tools =llm.bind_tools(tool_list)
